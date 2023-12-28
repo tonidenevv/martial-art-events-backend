@@ -5,7 +5,7 @@ const eventsRoutes = require('./routes/eventsRoutes');
 const usersRoutes = require('./routes/usersRoutes')
 
 const app = express();
-app.use('cors');
+app.use(cors());
 
 app.use('/events', eventsRoutes);
 app.use('/users', usersRoutes);

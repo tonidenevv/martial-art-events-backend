@@ -1,8 +1,11 @@
 const express = require('express');
+require('dotenv').config();
+const eventsRoutes = require('./routes/eventsRoutes');
+const usersRoutes = require('./routes/usersRoutes')
+
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send('Hello!');
-})
+app.use('/events', eventsRoutes);
+app.use('/users', usersRoutes);
 
-app.listen(5000, () => console.log('App is listening on port 5000...'))
+app.listen(process.env.PORT, () => console.log(`App is listening on port ${process.env.PORT}...`))

@@ -1,13 +1,8 @@
 const router = require('express').Router();
+const events = require('../controllers/eventController');
 
-router.get('/', (req, res) => {
-    res.send('All Events!');
-});
+router.get('/', events.getAll);
 
-router.get('/:eventId', (req, res) => {
-    const eventId = req.params.eventId;
-
-    res.send(`Event with ID: ${eventId}`);
-});
+router.get('/:eventId', events.getOne);
 
 module.exports = router;

@@ -5,4 +5,10 @@ router.get('/', events.getAll);
 
 router.get('/:eventId', events.getOne);
 
+router.post('/', events.create);
+
+router.post('/:eventId/comment', events.createComment);
+
+// router.post('/:eventId/attend', events.attendEvent);
+
 module.exports = router;

@@ -10,8 +10,7 @@ const validImageValidator = (imageUrl) => {
         .then(res => {
             return res.ok ? true : false;
         })
-        .catch(err => {
-            console.log(`Error validating the Image URL: ${err}`);
+        .catch(() => {
             return false;
         })
 }
@@ -19,7 +18,7 @@ const validImageValidator = (imageUrl) => {
 const eventSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        required: [true, 'The title field is required.'],
         minLength: [5, 'Title should be at least 5 characters.'],
         maxLength: [15, 'Title should be 15 characters at most.'],
         validate: {
@@ -29,7 +28,7 @@ const eventSchema = new mongoose.Schema({
     },
     sport: {
         type: String,
-        required: true,
+        required: [true, 'The sport field is required.'],
         minLength: [2, 'Sport should be at least 2 characters.'],
         maxLength: [15, 'Sport should be 15 characters at most.'],
         validate: {
@@ -39,13 +38,13 @@ const eventSchema = new mongoose.Schema({
     },
     ticketPrice: {
         type: Number,
-        required: true,
+        required: [true, 'The ticket price field is required.'],
         min: [1, 'Price must be at least 1$.'],
         max: [9999, 'Price should not be higher than 9999$.']
     },
     description: {
         type: String,
-        required: true,
+        required: [true, 'The description field is required.'],
         minLength: [5, 'Description should be at least 5 characters.'],
         maxLength: [20, 'Description should not be more than 20 characters'],
         validate: {
@@ -55,11 +54,7 @@ const eventSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String,
-        required: true,
-        validate: {
-            validator: validImageValidator,
-            message: 'Image URL is not valid.'
-        }
+        required: [true, 'The image URL field is required.'],
     },
     comments: {
         type: [String],

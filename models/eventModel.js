@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const validators = require('../helpers/validators');
 
 const disallowedCharactersValidator = (value) => {
     const disallowedChars = /[!@#$%^&*(),.?":{}|<>]/;

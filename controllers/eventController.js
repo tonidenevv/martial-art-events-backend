@@ -6,6 +6,7 @@ const getAll = async (req, res) => {
         const events = await Event.find({});
         res.status(200).json(events);
     } catch (error) {
+        res.status(404).json({ message: "Something went wrong." })
         console.log(error);
     }
 }
@@ -22,6 +23,7 @@ const getOne = async (req, res) => {
                 res.status(404).json({ message: 'No event with such ID.' });
             }
         } catch (error) {
+            res.status(400).json({ message: "Something went wrong" });
             console.log(error);
         }
     } else {
@@ -36,6 +38,7 @@ const create = async (req, res) => {
         const savedEvent = await event.save();
         res.status(201).json(savedEvent);
     } catch (error) {
+        res.status(400).json({ message: "Something went wrong" });
         console.log(error);
     }
 }
@@ -58,10 +61,28 @@ const createComment = async (req, res) => {
                 return res.status(404).json({ message: 'No event with such ID.' });
             }
         } catch (error) {
+            res.status(400).json({ message: "Something went wrong" });
             console.log(error);
         }
     } else {
         return res.status(404).json({ message: 'Invalid ID.' });
+    }
+}
+
+const edit = async (req, res) => {
+    const eventId = req.params.eventId;
+    const data = req.body;
+    const isValid = mongoose.isValidObjectId(eventId);
+    if (isValid) {
+        try {
+            const event = await Event.findByIdAndUpdate(eventId, data, { new: true, runValidators: true });
+            console.log(event);
+            res.status(200).json(event);
+        } catch (error) {
+            res.status(400).json({ message: "Something went wrong." });
+        }
+    } else {
+        res.status(404).json({ message: 'Invalid ID.' });
     }
 }
 
@@ -70,4 +91,5 @@ module.exports = {
     getOne,
     create,
     createComment,
+    edit,
 }

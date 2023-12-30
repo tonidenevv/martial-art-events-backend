@@ -5,6 +5,8 @@ router.get('/', events.getAll);
 
 router.get('/:eventId', events.getOne);
 
+router.put('/:eventId', events.edit);
+
 router.post('/', events.create);
 
 router.post('/:eventId/comment', events.createComment);

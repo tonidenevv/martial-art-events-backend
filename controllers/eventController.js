@@ -76,7 +76,6 @@ const edit = async (req, res) => {
     if (isValid) {
         try {
             const event = await Event.findByIdAndUpdate(eventId, data, { new: true, runValidators: true });
-            console.log(event);
             res.status(200).json(event);
         } catch (error) {
             res.status(400).json({ message: "Something went wrong." });
@@ -86,10 +85,26 @@ const edit = async (req, res) => {
     }
 }
 
+const del = async (req, res) => {
+    const eventId = req.params.eventId;
+    const isValid = mongoose.isValidObjectId(eventId);
+    if (isValid) {
+        try {
+            const event = await Event.findByIdAndDelete(eventId, data, { new: true });
+            res.status(200).json(event);
+        } catch (err) {
+            res.status(400).json({ message: "Something went wrong." });
+        }
+    } else {
+        res.status(404).json({ message: 'Invalid ID' });
+    }
+}
+
 module.exports = {
     getAll,
     getOne,
     create,
     createComment,
     edit,
+    del,
 }

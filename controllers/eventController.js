@@ -90,7 +90,7 @@ const del = async (req, res) => {
     const isValid = mongoose.isValidObjectId(eventId);
     if (isValid) {
         try {
-            const event = await Event.findByIdAndDelete(eventId, data, { new: true });
+            const event = await Event.findByIdAndDelete(eventId, { new: true });
             res.status(200).json(event);
         } catch (err) {
             res.status(400).json({ message: "Something went wrong." });

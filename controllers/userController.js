@@ -17,9 +17,12 @@ const login = async (req, res) => {
             res.status(401).json(wrongDataMessage);
         } else {
 
-            const token = jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET_KEY);
-            res.status(200).json({ token, _id: user._id, username: user.username })
-
+            try {
+                const token = jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET_KEY);
+                res.status(200).json({ token, _id: user._id, username: user.username })
+            } catch (err) {
+                console.log(err);
+            }
         }
     }
 };
@@ -40,11 +43,15 @@ const register = async (req, res) => {
 
         } else {
 
-            const hashedPassword = await bcrypt.hash(password, 12);
-            const user = await new User({ username, password: hashedPassword });
-            await user.save();
-            const token = jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET_KEY);
-            res.status(201).json({ token, _id: user._id, username: user.username });
+            try {
+                const hashedPassword = await bcrypt.hash(password, 12);
+                const user = await new User({ username, password: hashedPassword });
+                await user.save();
+                const token = jwt.sign({ _id: user._id, username: user.username }, process.env.JWT_SECRET_KEY);
+                res.status(201).json({ token, _id: user._id, username: user.username });
+            } catch (err) {
+                console.log(err);
+            }
         }
     } else {
         res.status(400).json({ message: 'Make sure you are sending valid data' });

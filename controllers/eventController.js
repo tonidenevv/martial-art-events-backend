@@ -34,7 +34,7 @@ const getOne = async (req, res) => {
 const create = async (req, res) => {
     const data = req.body;
     try {
-        const event = new Event(data);
+        const event = new Event({ ...data, _ownerId: req.user._id });
         const savedEvent = await event.save();
         res.status(201).json(savedEvent);
     } catch (error) {

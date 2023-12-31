@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const events = require('../controllers/eventController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 router.get('/', events.getAll);
 
@@ -9,7 +10,7 @@ router.put('/:eventId', events.edit);
 
 router.delete('/:eventId', events.del);
 
-router.post('/', events.create);
+router.post('/', authMiddleware, events.create);
 
 router.post('/:eventId/comment', events.createComment);
 

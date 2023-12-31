@@ -52,7 +52,20 @@ const register = async (req, res) => {
 };
 
 const logout = (req, res) => {
-    res.send('Logout...');
+    const token = req.headers.authorize;
+    if (!token) {
+        res.status(401).json({ message: "No token sent" });
+    } else {
+        try {
+            const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+            if (decoded) {
+                res.status(200).json({ message: "Successfully logged out" });
+            }
+        } catch (err) {
+            res.status(401).json({ message: "Invalid token" });
+            console.log(err);
+        }
+    }
 }
 
 module.exports = {

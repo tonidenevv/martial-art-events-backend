@@ -1,4 +1,6 @@
 const Event = require('../models/eventModel');
+const User = require('../models/userModel');
+
 const mongoose = require('mongoose');
 
 const getAll = async (req, res) => {
@@ -43,7 +45,7 @@ const create = async (req, res) => {
     }
 }
 
-const createComment = async (req, res) => {
+const comment = async (req, res) => {
     const eventId = req.params.eventId;
     const comment = req.body.comment;
     if (comment.length < 5 || comment.length > 20) {
@@ -85,6 +87,8 @@ const edit = async (req, res) => {
     }
 }
 
+
+
 const del = async (req, res) => {
     const eventId = req.params.eventId;
     const isValid = mongoose.isValidObjectId(eventId);
@@ -100,11 +104,38 @@ const del = async (req, res) => {
     }
 }
 
+const attend = async (req, res) => {
+    const eventId = req.params.eventId;
+    if (!mongoose.isValidObjectId(eventId)) return res.status(404).json({ message: 'Invalid ID' });
+
+    try {
+        const event = await Event.findById(eventId);
+        if (event) {
+            if (!mongoose.isValidObjectId(req.user._id)) return res.status(404).json({ message: 'Invalid user ID' });
+            const user = await User.findById(req.user._id);
+            if (user) {
+                if (event.attending.some(x => x.valueOf() === req.user._id)) return res.status(409).json({ message: 'Already attending' });
+                event.attending.push(req.user._id);
+                await event.save();
+                user.attending.push(eventId);
+                await user.save();
+                res.status(200).json(event);
+            }
+        } else {
+            res.status(404).json({ message: 'No event with such ID' });
+        }
+    } catch (err) {
+        res.status(400).json({ message: 'Something went wrong' });
+        console.log(err);
+    }
+}
+
 module.exports = {
     getAll,
     getOne,
     create,
-    createComment,
+    comment,
     edit,
     del,
+    attend,
 }

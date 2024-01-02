@@ -14,8 +14,8 @@ router.delete('/:eventId', ownerMiddleware, events.del);
 
 router.post('/', authMiddleware, events.create);
 
-router.post('/:eventId/comment', notOwnerMiddleware, events.createComment);
+router.post('/:eventId/comment', notOwnerMiddleware, events.comment);
 
-// router.post('/:eventId/attend', events.attendEvent);
+router.post('/:eventId/attend', notOwnerMiddleware, events.attend);
 
 module.exports = router;

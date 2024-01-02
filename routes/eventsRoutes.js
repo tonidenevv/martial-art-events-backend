@@ -10,6 +10,8 @@ router.get('/:eventId', events.getOne);
 
 router.get('/owned/:ownerId', events.getCreatedById);
 
+router.get('/attending/:ownerId', events.getAttendingTo);
+
 router.put('/:eventId', ownerMiddleware, events.edit);
 
 router.delete('/:eventId', ownerMiddleware, events.del);

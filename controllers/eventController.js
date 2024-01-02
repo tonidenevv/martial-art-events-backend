@@ -41,6 +41,20 @@ const getCreatedById = async (req, res) => {
         const events = await Event.find({ _ownerId: ownerId });
         res.status(200).json(events);
     } catch (err) {
+        console.log(err);
+        res.status(400).json({ message: 'Something went wrong' });
+    }
+}
+
+const getAttendingTo = async (req, res) => {
+    const ownerId = req.params.ownerId;
+    if (!mongoose.isValidObjectId(ownerId)) return res.status(404).json({ message: 'No user with such ID' });
+
+    try {
+        const events = await Event.find({ attending: ownerId });
+        res.status(200).json(events);
+    } catch (err) {
+        console.log(err);
         res.status(400).json({ message: 'Something went wrong' });
     }
 }
@@ -151,4 +165,5 @@ module.exports = {
     del,
     attend,
     getCreatedById,
+    getAttendingTo,
 }

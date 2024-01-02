@@ -45,9 +45,11 @@ const create = async (req, res) => {
 
 const createComment = async (req, res) => {
     const eventId = req.params.eventId;
+    console.log(eventId);
+    console.log(req.body);
     const comment = req.body.comment;
-    if (!comment) {
-        return res.status(400).json('Comment is empty');
+    if (comment.length < 5 || comment.length > 20) {
+        return res.status(400).json('Comment should be between 5 and 20 characters');
     }
     const isValid = mongoose.isValidObjectId(eventId);
     if (isValid) {
@@ -56,7 +58,7 @@ const createComment = async (req, res) => {
             if (event) {
                 event.comments.push(comment);
                 await event.save();
-                return res.status(200).json(event);
+                return res.status(201).json(event);
             } else {
                 return res.status(404).json({ message: 'No event with such ID.' });
             }

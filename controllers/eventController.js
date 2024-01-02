@@ -33,6 +33,18 @@ const getOne = async (req, res) => {
     }
 }
 
+const getCreatedById = async (req, res) => {
+    const ownerId = req.params.ownerId;
+    if (!mongoose.isValidObjectId(ownerId)) return res.status(404).json({ message: 'No user with such ID' });
+
+    try {
+        const events = await Event.find({ _ownerId: ownerId });
+        res.status(200).json(events);
+    } catch (err) {
+        res.status(400).json({ message: 'Something went wrong' });
+    }
+}
+
 const create = async (req, res) => {
     const data = req.body;
     try {
@@ -138,4 +150,5 @@ module.exports = {
     edit,
     del,
     attend,
+    getCreatedById,
 }

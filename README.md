@@ -1,5 +1,7 @@
 Rest API Server for https://github.com/tonidenevv/martial-art-events-frontend
 
+Deployed version of the full-stack application: https://martial-art-events-backend.vercel.app/
+
 # Information
 * Used Node.js, Express and MongoDB
 * Allows the client to make requests for registering an user, logging in, creating, editing and deleting an event, attending an event, commenting, getting all events, getting all events created by a certain user, getting all events that a user is attending

@@ -2,7 +2,7 @@ Rest API Server for https://github.com/tonidenevv/martial-art-events-frontend
 
 # Information
 * Used Node.js, Express and MongoDB
-* Allows the client to make requests for registering an user, loggin in, creating, editing and deleting an event, attending an event, commenting, getting all events, getting all events created by a certain user, getting all events that a user is attending
+* Allows the client to make requests for registering an user, logging in, creating, editing and deleting an event, attending an event, commenting, getting all events, getting all events created by a certain user, getting all events that a user is attending
 * Protected routes giving guests limited functionality, allowing users to view and attend events not owned by them but not being able to edit or delete them and allowing owners to edit and delete them without being able to comment or attend them
 
 # Technologies
